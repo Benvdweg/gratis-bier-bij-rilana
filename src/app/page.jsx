@@ -14,17 +14,16 @@ export default function Home() {
 
 	if (isLoggedIn) {
 		return (
-			<div className="flex justify-center pt-16">
-				<h1 className="font-bold text-5xl mb-8">
-					Gratis Bier bij Rilana
-				</h1>
-				<div className="bg-green-100 p-4 rounded-lg">
-					<p className="text-green-800">
-						Welcome back, {userInfo?.user.email}!
-					</p>
-					<p className="text-green-600">Role: {userInfo?.role}</p>
+			<>
+				<div className="flex justify-center pt-16">
+					<h1 className="font-bold text-5xl mb-8">
+						Gratis Bier bij Rilana
+					</h1>
 				</div>
-			</div>
+				<div className="p-4 rounded-lg text-center">
+					<p>Welcome back, {userInfo?.user.email}!</p>
+				</div>
+			</>
 		);
 	}
 

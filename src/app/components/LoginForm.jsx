@@ -26,18 +26,9 @@ export default function LoginForm({ onLoginSuccess, requiredRole }) {
 		setLoading(true);
 		try {
 			const result = await loginUser(email, password);
-
-			if (requiredRole && result.role !== requiredRole) {
-				throw new Error("role_error");
-			}
-
 			onLoginSuccess(result);
 		} catch (error) {
-			if (error.message === "role_error") {
-				setError("Je hebt niet de juiste rechten.");
-			} else {
-				setError("Ongeldige inloggegevens.");
-			}
+			setError("Ongeldige inloggegevens.");
 		} finally {
 			setLoading(false);
 		}

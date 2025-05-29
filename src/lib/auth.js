@@ -1,42 +1,28 @@
-import { auth, db } from "./firebase";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { supabase } from "./supabaseClient";
 
+// Login user with email and password
 export async function loginUser(email, password) {
 	try {
-		const userCredential = await signInWithEmailAndPassword(
-			auth,
-			email,
-			password
-		);
-		const user = userCredential.user;
+		const { data: user, error: signInError } =
+			await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
 
-		const userDoc = await getDoc(doc(db, "users", user.uid));
-		const userData = userDoc.data();
+		if (signInError) {
+			console.error("Sign-in error:", signInError);
+			throw signInError;
+		}
 
-		return {
-			user,
-			role: userData?.role || "user",
-		};
+		return user;
 	} catch (error) {
+		console.error("loginUser failed:", error);
 		throw error;
 	}
 }
 
+// Logout user
 export async function logoutUser() {
-	try {
-		await signOut(auth);
-	} catch (error) {
-		throw error;
-	}
-}
-
-export async function getCurrentUserRole(uid) {
-	try {
-		const userDoc = await getDoc(doc(db, "users", uid));
-		return userDoc.data()?.role || "user";
-	} catch (error) {
-		console.error("Error getting user role:", error);
-		return "user";
-	}
+	const { error } = await supabase.auth.signOut();
+	if (error) throw error;
 }
