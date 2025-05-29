@@ -16,9 +16,6 @@ export function validateLogin({ email, password }) {
 	if (!password) {
 		errors.password = "Wachtwoord is verplicht.";
 		valid = false;
-	} else if (password.length < 6) {
-		errors.password = "Wachtwoord moet minstens 6 tekens lang zijn.";
-		valid = false;
 	}
 
 	return { valid, errors };

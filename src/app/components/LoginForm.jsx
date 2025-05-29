@@ -28,12 +28,16 @@ export default function LoginForm({ onLoginSuccess, requiredRole }) {
 			const result = await loginUser(email, password);
 
 			if (requiredRole && result.role !== requiredRole) {
-				throw new Error("Je hebt niet de juiste rechten.");
+				throw new Error("role_error");
 			}
 
 			onLoginSuccess(result);
 		} catch (error) {
-			setError(error.message);
+			if (error.message === "role_error") {
+				setError("Je hebt niet de juiste rechten.");
+			} else {
+				setError("Ongeldige inloggegevens.");
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -78,11 +82,7 @@ export default function LoginForm({ onLoginSuccess, requiredRole }) {
 					)}
 				</div>
 
-				{error && (
-					<div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-						{error}
-					</div>
-				)}
+				{error && <p className="text-red-500 mt-4 mb-4">{error}</p>}
 
 				<button
 					type="submit"
