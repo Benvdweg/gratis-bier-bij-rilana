@@ -14,7 +14,7 @@ export default function Home() {
 
 	if (isLoggedIn) {
 		return (
-			<div className="flex flex-col items-center pt-16">
+			<div className="flex justify-center pt-16">
 				<h1 className="font-bold text-5xl mb-8">
 					Gratis Bier bij Rilana
 				</h1>
@@ -29,9 +29,13 @@ export default function Home() {
 	}
 
 	return (
-		<div className="flex flex-col items-center pt-16">
-			<h1 className="font-bold text-5xl mb-8">Gratis Bier bij Rilana</h1>
+		<>
+			<div className="flex justify-center pt-16">
+				<h1 className="font-bold text-5xl mb-8">
+					Gratis Bier bij Rilana
+				</h1>
+			</div>
 			<LoginForm onLoginSuccess={handleLoginSuccess} />
-		</div>
+		</>
 	);
 }

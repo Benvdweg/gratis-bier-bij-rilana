@@ -4,7 +4,7 @@ import { doc, setDoc } from "firebase/firestore";
 
 async function seedAdmin() {
 	try {
-		const adminEmail = "admin@gmail.com";
+		const adminEmail = "gebruiker@gmail.com";
 		const adminpassword = "Rilana123!";
 
 		const userCredential = await createUserWithEmailAndPassword(
@@ -16,9 +16,9 @@ async function seedAdmin() {
 
 		await setDoc(doc(db, "users", user.uid), {
 			email: adminEmail,
-			role: "admin",
+			role: "user",
 			createdAt: new Date(),
-			displayName: "Admin",
+			displayName: "Gebruiker",
 		});
 
 		console.log("Admin user created successfully:", user.uid);
