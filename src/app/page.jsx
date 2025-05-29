@@ -1,31 +1,16 @@
 "use client";
-import { useState } from "react";
-import LoginForm from "./components/LoginForm";
+import { useAuth } from "./contexts/AuthContext";
 
 export default function Home() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [userInfo, setUserInfo] = useState(null);
+	const { user, signOut } = useAuth();
 
-	const handleLoginSuccess = (result) => {
-		setUserInfo(result);
-		setIsLoggedIn(true);
-		console.log("Login successful:", result);
+	const handleLogout = async () => {
+		try {
+			await signOut();
+		} catch (error) {
+			console.error("Logout failed:", error);
+		}
 	};
-
-	if (isLoggedIn) {
-		return (
-			<>
-				<div className="flex justify-center pt-16">
-					<h1 className="font-bold text-5xl mb-8">
-						Gratis Bier bij Rilana
-					</h1>
-				</div>
-				<div className="p-4 rounded-lg text-center">
-					<p>Welcome back, {userInfo?.user.email}!</p>
-				</div>
-			</>
-		);
-	}
 
 	return (
 		<>
@@ -34,7 +19,15 @@ export default function Home() {
 					Gratis Bier bij Rilana
 				</h1>
 			</div>
-			<LoginForm onLoginSuccess={handleLoginSuccess} />
+			<div className="p-4 rounded-lg text-center">
+				<p>Welcome back, {user?.email}!</p>
+				<button
+					onClick={handleLogout}
+					className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+				>
+					Logout
+				</button>
+			</div>
 		</>
 	);
 }

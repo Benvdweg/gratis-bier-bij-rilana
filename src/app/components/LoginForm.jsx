@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { loginUser } from "@/lib/auth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { validateLogin } from "@/lib/validation";
 
-export default function LoginForm({ onLoginSuccess, requiredRole }) {
+export default function LoginForm() {
+	const { signIn } = useAuth();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -25,8 +26,7 @@ export default function LoginForm({ onLoginSuccess, requiredRole }) {
 
 		setLoading(true);
 		try {
-			const result = await loginUser(email, password);
-			onLoginSuccess(result);
+			await signIn(email, password);
 		} catch (error) {
 			setError("Ongeldige inloggegevens.");
 		} finally {
