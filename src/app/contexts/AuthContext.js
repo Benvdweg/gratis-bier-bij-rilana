@@ -1,9 +1,15 @@
-// contexts/AuthContext.js
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-const AuthContext = createContext({});
+// Create context with default values
+const AuthContext = createContext({
+	user: null,
+	loading: true,
+	signIn: async () => {},
+	signOut: async () => {},
+	isAuthenticated: false,
+});
 
 export const useAuth = () => {
 	const context = useContext(AuthContext);
@@ -20,11 +26,22 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		// Get initial session
 		const getInitialSession = async () => {
-			const {
-				data: { session },
-			} = await supabase.auth.getSession();
-			setUser(session?.user ?? null);
-			setLoading(false);
+			try {
+				const {
+					data: { session },
+					error,
+				} = await supabase.auth.getSession();
+
+				if (error) {
+					console.error("Error getting session:", error);
+				} else {
+					setUser(session?.user ?? null);
+				}
+			} catch (error) {
+				console.error("Error in getInitialSession:", error);
+			} finally {
+				setLoading(false);
+			}
 		};
 
 		getInitialSession();
@@ -41,17 +58,27 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	const signIn = async (email, password) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
-		});
-		if (error) throw error;
-		return data;
+		try {
+			const { data, error } = await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
+			if (error) throw error;
+			return data;
+		} catch (error) {
+			console.error("Sign in error:", error);
+			throw error;
+		}
 	};
 
 	const signOut = async () => {
-		const { error } = await supabase.auth.signOut();
-		if (error) throw error;
+		try {
+			const { error } = await supabase.auth.signOut();
+			if (error) throw error;
+		} catch (error) {
+			console.error("Sign out error:", error);
+			throw error;
+		}
 	};
 
 	const value = {

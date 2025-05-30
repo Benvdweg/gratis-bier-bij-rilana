@@ -2,8 +2,11 @@
 import { useState } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { validateLogin } from "@/lib/validation";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+	const router = useRouter();
+
 	const { signIn } = useAuth();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -27,8 +30,11 @@ export default function LoginForm() {
 		setLoading(true);
 		try {
 			await signIn(email, password);
+			router.push("/admin");
+			console.log("Logged in");
 		} catch (error) {
 			setError("Ongeldige inloggegevens.");
+			console.log(error);
 		} finally {
 			setLoading(false);
 		}
