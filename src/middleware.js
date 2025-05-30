@@ -1,4 +1,3 @@
-// middleware.js
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
@@ -23,6 +22,10 @@ export async function middleware(request) {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
+
+	if (request.nextUrl.pathname === "/admin/login" && user) {
+		return NextResponse.redirect(new URL("/admin", request.url));
+	}
 
 	if (
 		request.nextUrl.pathname.startsWith("/admin") &&
