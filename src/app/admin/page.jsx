@@ -1,5 +1,7 @@
 "use client";
 
+import LogoutButton from "./components/LogoutButton";
+
 export default function Admin() {
 	return (
 		<div>
@@ -8,6 +10,7 @@ export default function Admin() {
 				<button>Add Beer Stats</button>
 				<button>Manage Users</button>
 			</div>
+			<LogoutButton></LogoutButton>
 		</div>
 	);
 }
