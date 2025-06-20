@@ -28,7 +28,7 @@ export default function LoginPage() {
 		<main className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
 			<form
 				onSubmit={handleLogin}
-				className="w-full max-w-sm p-6 rounded-lg shadow bg-[--surface] border border-[--border]"
+				className="w-full max-w-sm p-6 rounded-lg shadow bg-[#2a2a3d]"
 			>
 				<h1 className="text-2xl font-bold mb-4">Inloggen</h1>
 				<input
@@ -47,7 +47,7 @@ export default function LoginPage() {
 				{error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 				<button
 					type="submit"
-					className="w-full bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 cursor-pointer"
+					className="w-full bg-indigo-600 py-2 px-4 rounded hover:bg-indigo-700 cursor-pointer"
 				>
 					Inloggen
 				</button>
