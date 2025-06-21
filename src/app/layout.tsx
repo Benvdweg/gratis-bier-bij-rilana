@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import AppWrapper from "./components/AppWrapper";
 
 const inter = Inter({
 	variable: "--font-fredoka",
@@ -18,7 +19,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en">
-			<body className={`${inter.variable}`}>{children}</body>
+			<body className={`${inter.variable}`}>
+				<AppWrapper>{children}</AppWrapper>
+			</body>
 		</html>
 	);
 }
