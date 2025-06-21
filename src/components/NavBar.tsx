@@ -7,7 +7,7 @@ import HamburgerToggle from "./HamburgerToggle";
 
 const navItems = [
 	{ name: "Home", href: "/", icon: <Home size={20} /> },
-	{ name: "Pubquiz", href: "/", icon: <DnaIcon size={20} /> },
+	{ name: "Pubquiz", href: "/pubquiz", icon: <DnaIcon size={20} /> },
 ];
 
 export default function NavBar() {
