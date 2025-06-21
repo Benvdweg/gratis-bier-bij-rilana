@@ -25,20 +25,20 @@ export default function LoginPage() {
 	};
 
 	return (
-		<main className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
+		<main className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground px-4 sm:px-6">
 			<form
 				onSubmit={handleLogin}
-				className="w-full max-w-sm p-6 rounded-lg shadow bg-[#2a2a3d]"
+				className="w-full max-w-sm p-6 rounded-lg shadow bg-[#2a2a3d] sm:p-8"
 			>
-				<h1 className="text-2xl font-bold mb-4">Inloggen</h1>
+				<h1 className="text-xl sm:text-2xl font-bold mb-4">Inloggen</h1>
 				<input
-					className="w-full mb-2 px-3 py-2 border rounded"
+					className="w-full mb-2 px-3 py-2 border rounded text-base sm:text-sm"
 					placeholder="Email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 				/>
 				<input
-					className="w-full mb-4 px-3 py-2 border rounded"
+					className="w-full mb-4 px-3 py-2 border rounded text-base sm:text-sm"
 					type="password"
 					placeholder="Password"
 					value={password}
