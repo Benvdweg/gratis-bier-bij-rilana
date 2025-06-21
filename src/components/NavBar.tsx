@@ -4,6 +4,8 @@ import { DnaIcon, Home } from "lucide-react";
 import { useState } from "react";
 import NavItem from "./NavItem";
 import HamburgerToggle from "./HamburgerToggle";
+import { supabase } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const navItems = [
 	{ name: "Home", href: "/", icon: <Home size={20} /> },
@@ -12,6 +14,7 @@ const navItems = [
 
 export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
 
 	const handleBackdropClick = () => {
 		if (isOpen) {
@@ -22,6 +25,15 @@ export default function NavBar() {
 	const handleNavItemClick = () => {
 		if (isOpen) {
 			setIsOpen(false);
+		}
+	};
+
+	const handleLogout = async () => {
+		try {
+			await supabase.auth.signOut();
+			router.push("/login");
+		} catch (error) {
+			console.error("Logout error:", error);
 		}
 	};
 
@@ -61,8 +73,16 @@ export default function NavBar() {
 					))}
 				</ul>
 				<div className="p-4 border-t border-gray-600/30 mt-auto">
-					<div className="text-xs text-gray-400 text-center">
+					<div className="text-xs text-gray-400 text-center mb-2">
 						🍺 Cheers to good times!
+					</div>
+					<div className="text-center">
+						<button
+							onClick={handleLogout}
+							className="text-xs text-gray-400 hover:text-white transition-colors duration-200 underline hover:no-underline cursor-pointer"
+						>
+							Uitloggen
+						</button>
 					</div>
 				</div>
 			</nav>
