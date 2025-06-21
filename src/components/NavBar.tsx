@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 const navItems = [
 	{ name: "Home", href: "/", icon: <Home size={20} /> },
 	{ name: "Pubquiz", href: "/pubquiz", icon: <DnaIcon size={20} /> },
+	{ name: "Adje Kratje", href: "/test", icon: <Home size={20} /> },
+	{ name: "Stats", href: "/test2", icon: <DnaIcon size={20} /> },
 ];
 
 export default function NavBar() {
