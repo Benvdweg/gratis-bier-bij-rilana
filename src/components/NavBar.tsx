@@ -62,10 +62,12 @@ export default function NavBar() {
 					overflow-y-auto flex flex-col z-40
 				`}
 			>
-				<h1 className="text-2xl font-bold text-center my-8">
-					Gratis Bier bij Rilana
-				</h1>
-				<ul className="space-y-4 px-4">
+				<div className="sticky top-0 bg-[#2a2a3d] z-50 px-4 py-3 border-b border-gray-700">
+					<h1 className="text-xl font-bold text-center">
+						Gratis Bier bij Rilana
+					</h1>
+				</div>
+				<ul className="space-y-4 px-4 md:px-6 mt-4">
 					{navItems.map((item) => (
 						<NavItem
 							key={item.name}
