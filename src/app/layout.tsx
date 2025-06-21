@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import AppWrapper from "./components/AppWrapper";
+import AppWrapper from "@/components/AppWrapper";
 
 const inter = Inter({
 	variable: "--font-fredoka",

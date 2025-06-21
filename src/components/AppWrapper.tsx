@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Navbar from "@/app/components/NavBar";
+import Navbar from "@/components/NavBar";
 
 export default function AppWrapper({
 	children,
