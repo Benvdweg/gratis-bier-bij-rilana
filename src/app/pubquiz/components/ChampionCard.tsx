@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface ChampionCardProps {
 	name: string;
 	edition: string[];
@@ -6,7 +8,14 @@ interface ChampionCardProps {
 export function ChampionCard({ name, edition }: ChampionCardProps) {
 	return (
 		<div className="flex flex-row bg-gray-200 shadow-xl mt-4 sm:mt-8 rounded-xl py-3">
-			<div className="my-auto text-2xl sm:text-3xl ml-3">🥇</div>
+			<div className="my-auto ml-3">
+				<Image
+					src="/icons/gold-medal.svg"
+					alt="Gold Medal"
+					width={48}
+					height={48}
+				/>
+			</div>
 			<div className="ml-3">
 				<p className="font-bold text-lg sm:text-base">{name}</p>
 				{edition.map((ed, index) => (
