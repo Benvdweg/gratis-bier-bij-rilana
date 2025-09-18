@@ -1,29 +1,42 @@
 import { supabase } from "@/utils/supabase/client";
-import { Champion } from "@/types/champion";
 
-type RawChampion = { name: string; player: string };
-
-function groupChampions(data: RawChampion[]): Champion[] {
-	const map = new Map<string, string[]>();
-	for (const { player, name } of data) {
-		map.set(player, [...(map.get(player) ?? []), name]);
-	}
-	return Array.from(map, ([player_name, editions]) => ({
-		player_name,
-		editions,
-	}));
+interface PlayerStats {
+	player_name: string;
+	average_placement: number;
+	total_quizzes: number;
 }
 
 export class PubquizService {
-	async getAllChampions(): Promise<Champion[]> {
+	async getPlayerAverages(): Promise<PlayerStats[]> {
 		const { data, error } = await supabase
 			.from("pubquiz")
-			.select("name, player")
-			.eq("placement", 1);
+			.select("player, placement");
 
 		if (error) throw error;
 		if (!data) return [];
 
-		return groupChampions(data);
+		// Group by player and calculate averages
+		const playerStats = new Map<string, number[]>();
+
+		for (const record of data) {
+			const placements = playerStats.get(record.player) || [];
+			placements.push(record.placement);
+			playerStats.set(record.player, placements);
+		}
+
+		const averageStats = Array.from(
+			playerStats,
+			([player_name, placements]) => ({
+				player_name,
+				average_placement:
+					placements.reduce((sum, p) => sum + p, 0) /
+					placements.length,
+				total_quizzes: placements.length,
+			})
+		);
+
+		return averageStats.sort(
+			(a, b) => a.average_placement - b.average_placement
+		);
 	}
 }
