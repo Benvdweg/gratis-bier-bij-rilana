@@ -39,9 +39,4 @@ export class PubquizService {
 			(a, b) => a.average_placement - b.average_placement
 		);
 	}
-
-	async getTopThreeByAverage(): Promise<PlayerStats[]> {
-		const playerAverages = await this.getPlayerAverages();
-		return playerAverages.slice(0, 3);
-	}
 }

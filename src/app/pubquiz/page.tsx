@@ -9,7 +9,7 @@ const pubquizService = new PubquizService();
 const PAGE_TITLE = "🏆 Hall of Fame 🏆";
 
 export default function PubquizPage() {
-	const [topThree, setTopThree] = useState<
+	const [averagePlacements, setAveragePlacements] = useState<
 		Array<{
 			player_name: string;
 			average_placement: number;
@@ -22,32 +22,35 @@ export default function PubquizPage() {
 	useEffect(() => {
 		setMounted(true);
 
-		async function fetchTopThree() {
+		async function fetchAveragePlacements() {
 			try {
-				const topThreeData =
-					await pubquizService.getTopThreeByAverage();
-				setTopThree(topThreeData);
-				console.log("Top three by average loaded:", topThreeData);
+				const averagePlacementsData =
+					await pubquizService.getPlayerAverages();
+				setAveragePlacements(averagePlacementsData);
+				console.log(
+					"Top three by average loaded:",
+					averagePlacementsData
+				);
 			} catch (error) {
 				console.error("Error fetching top three:", error);
 			} finally {
 				setLoading(false);
 			}
 		}
-		fetchTopThree();
+		fetchAveragePlacements();
 	}, []);
 
 	if (!mounted || loading) {
-		return <LoadingCard title={PAGE_TITLE} />;
+		return <LoadingCard />;
 	}
 
-	const gold = topThree[0];
-	const silver = topThree[1];
-	const bronze = topThree[2];
+	const gold = averagePlacements[0];
+	const silver = averagePlacements[1];
+	const bronze = averagePlacements[2];
 
 	return (
 		<div className="px-4 sm:px-0">
-			<div className="mt-8 sm:mt-16 md:mt-32 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
+			<div className="mt-2 sm:mt-4 md:mt-8 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
 				<h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-8 sm:mb-12 drop-shadow-md">
 					{PAGE_TITLE}
 				</h1>
@@ -107,6 +110,23 @@ export default function PubquizPage() {
 							</div>
 						</div>
 					)}
+				</div>
+				<div className="max-w-4xl mx-auto mt-6">
+					{averagePlacements.slice(3).map((player, index) => (
+						<div
+							key={player.player_name}
+							className="flex justify-between items-center p-4 border-b border-gray-200 bg-white rounded-lg mb-2 shadow-sm"
+						>
+							<span className="text-lg font-medium text-gray-800">
+								{index + 4}. {player.player_name}
+							</span>
+							<div className="text-right">
+								<p className="text-gray-600">
+									{player.average_placement.toFixed(2)}
+								</p>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
