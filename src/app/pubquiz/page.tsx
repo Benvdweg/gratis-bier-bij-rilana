@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { PubquizService } from "@/services/PubquizService";
+import Image from "next/image";
 
 const pubquizService = new PubquizService();
+const PAGE_TITLE = "🏆 Hall of Fame 🏆";
 
 export default function PubquizPage() {
 	const [topThree, setTopThree] = useState<
@@ -39,7 +41,7 @@ export default function PubquizPage() {
 			<div className="px-4 sm:px-0">
 				<div className="mt-8 sm:mt-16 md:mt-32 bg-[#fcfbfb] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl">
 					<h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-4 sm:mb-6">
-						🏆 Hall of Champions
+						{PAGE_TITLE}
 					</h1>
 					<div className="flex justify-center items-center h-64 text-gray-600">
 						Loading...
@@ -54,10 +56,10 @@ export default function PubquizPage() {
 			<div className="px-4 sm:px-0">
 				<div className="mt-8 sm:mt-16 md:mt-32 bg-[#fcfbfb] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl">
 					<h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-4 sm:mb-6">
-						🏆 Hall of Champions
+						{PAGE_TITLE}
 					</h1>
 					<div className="flex justify-center items-center h-64 text-gray-600">
-						Loading champions...
+						Loading...
 					</div>
 				</div>
 			</div>
@@ -73,7 +75,7 @@ export default function PubquizPage() {
 		<div className="px-4 sm:px-0">
 			<div className="mt-8 sm:mt-16 md:mt-32 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
 				<h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-8 sm:mb-12 drop-shadow-md">
-					🏆 Hall of Champions
+					{PAGE_TITLE}
 				</h1>
 				<div className="flex justify-center items-end gap-4 sm:gap-6 md:gap-8">
 					{/* Silver (2nd place) - Left */}
@@ -83,8 +85,13 @@ export default function PubquizPage() {
 								<p>{silver.player_name}</p>
 								<p>{silver.average_placement.toFixed(2)}</p>
 							</div>
-							<div className="bg-[#d3d3d3] w-full h-20 sm:h-24 text-center text-gray-700 font-medium text-sm sm:text-base">
-								2nd
+							<div className="bg-[#d3d3d3] w-full h-20 sm:h-24 flex items-center justify-center text-gray-700 font-medium text-sm sm:text-base">
+								<Image
+									src="/icons/silver-medal.png"
+									alt="Silver Medal"
+									width={78}
+									height={78}
+								/>
 							</div>
 						</div>
 					)}
@@ -95,8 +102,13 @@ export default function PubquizPage() {
 								<p>{gold.player_name}</p>
 								<p>{gold.average_placement.toFixed(2)}</p>
 							</div>
-							<div className="bg-[#ffeb3b] w-full h-28 sm:h-32 text-center text-gray-800 font-medium text-base sm:text-lg">
-								1st
+							<div className="bg-[#ffeb3b] w-full h-28 sm:h-32 flex items-center justify-center text-gray-800 font-medium text-base sm:text-lg">
+								<Image
+									src="/icons/gold-medal.svg"
+									alt="Gold Medal"
+									width={96}
+									height={96}
+								/>
 							</div>
 						</div>
 					)}
@@ -107,8 +119,13 @@ export default function PubquizPage() {
 								<p>{bronze.player_name}</p>
 								<p>{bronze.average_placement.toFixed(2)}</p>
 							</div>
-							<div className="bg-[#e8b293] w-full h-16 sm:h-20 text-center text-gray-700 font-medium text-sm sm:text-base">
-								3rd
+							<div className="bg-[#e8b293] w-full h-16 sm:h-20 flex items-center justify-center text-gray-700 font-medium text-sm sm:text-base">
+								<Image
+									src="/icons/bronze-medal.png"
+									alt="Bronze Medal"
+									width={64}
+									height={64}
+								/>
 							</div>
 						</div>
 					)}
