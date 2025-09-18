@@ -26,14 +26,4 @@ export class PubquizService {
 
 		return groupChampions(data);
 	}
-
-	async getTopThreeChampions(): Promise<Champion[]> {
-		const allChampions = await this.getAllChampions();
-
-		const sorted = allChampions.sort(
-			(a, b) => b.editions.length - a.editions.length
-		);
-
-		return sorted.slice(0, 3);
-	}
 }
