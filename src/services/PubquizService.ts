@@ -24,23 +24,24 @@ export class PubquizService {
 			playerStats.set(record.player, placements);
 		}
 
-		// Calculate averages
-		return Array.from(playerStats, ([player_name, placements]) => ({
-			player_name,
-			average_placement:
-				placements.reduce((sum, p) => sum + p, 0) / placements.length,
-			total_quizzes: placements.length,
-		}));
+		const averageStats = Array.from(
+			playerStats,
+			([player_name, placements]) => ({
+				player_name,
+				average_placement:
+					placements.reduce((sum, p) => sum + p, 0) /
+					placements.length,
+				total_quizzes: placements.length,
+			})
+		);
+
+		return averageStats.sort(
+			(a, b) => a.average_placement - b.average_placement
+		);
 	}
 
 	async getTopThreeByAverage(): Promise<PlayerStats[]> {
 		const playerAverages = await this.getPlayerAverages();
-		console.log(playerAverages);
-
-		const sorted = playerAverages.sort(
-			(a, b) => a.average_placement - b.average_placement
-		);
-
-		return sorted.slice(0, 3);
+		return playerAverages.slice(0, 3);
 	}
 }
