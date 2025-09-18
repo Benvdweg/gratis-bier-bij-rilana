@@ -66,7 +66,6 @@ export default function PubquizPage() {
 		);
 	}
 
-	// Assign podium positions: gold (1st, center), silver (2nd, left), bronze (3rd, right)
 	const gold = topThree[0];
 	const silver = topThree[1];
 	const bronze = topThree[2];
@@ -100,7 +99,9 @@ export default function PubquizPage() {
 						<div className="flex flex-col items-center w-1/3">
 							<div className="bg-gradient-to-b from-[#ffd700] to-[#e6b800] text-white font-bold text-xl sm:text-2xl md:text-3xl text-center py-6 sm:py-8 rounded-t-lg shadow-md h-48 sm:h-56 w-full border-2 border-yellow-300">
 								<p>{gold.player_name}</p>
-								<p>{gold.average_placement.toFixed(2)}</p>
+								<p className="mt-4">
+									{gold.average_placement.toFixed(2)}
+								</p>
 							</div>
 							<div className="bg-[#ffeb3b] w-full h-28 sm:h-32 flex items-center justify-center text-gray-800 font-medium text-base sm:text-lg">
 								<Image
@@ -117,7 +118,9 @@ export default function PubquizPage() {
 						<div className="flex flex-col items-center w-1/3">
 							<div className="bg-gradient-to-b from-[#cd7f32] to-[#b87333] text-white font-semibold text-lg sm:text-xl md:text-2xl text-center py-4 sm:py-6 rounded-t-lg shadow-md h-24 sm:h-32 w-full">
 								<p>{bronze.player_name}</p>
-								<p>{bronze.average_placement.toFixed(2)}</p>
+								<p className="mt-4">
+									{bronze.average_placement.toFixed(2)}
+								</p>
 							</div>
 							<div className="bg-[#e8b293] w-full h-16 sm:h-20 flex items-center justify-center text-gray-700 font-medium text-sm sm:text-base">
 								<Image

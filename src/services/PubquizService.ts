@@ -1,13 +1,13 @@
 import { supabase } from "@/utils/supabase/client";
 
+interface PlayerStats {
+	player_name: string;
+	average_placement: number;
+	total_quizzes: number;
+}
+
 export class PubquizService {
-	async getPlayerAverages(): Promise<
-		Array<{
-			player_name: string;
-			average_placement: number;
-			total_quizzes: number;
-		}>
-	> {
+	async getPlayerAverages(): Promise<PlayerStats[]> {
 		const { data, error } = await supabase
 			.from("pubquiz")
 			.select("player, placement");
@@ -33,14 +33,9 @@ export class PubquizService {
 		}));
 	}
 
-	async getTopThreeByAverage(): Promise<
-		Array<{
-			player_name: string;
-			average_placement: number;
-			total_quizzes: number;
-		}>
-	> {
+	async getTopThreeByAverage(): Promise<PlayerStats[]> {
 		const playerAverages = await this.getPlayerAverages();
+		console.log(playerAverages);
 
 		const sorted = playerAverages.sort(
 			(a, b) => a.average_placement - b.average_placement
