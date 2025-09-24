@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PubquizService } from "@/services/PubquizService";
+import { PubquizGroup, PubquizService } from "@/services/PubquizService";
 import Image from "next/image";
 import { LoadingCard } from "./components/LoadingCard";
 
@@ -16,6 +16,7 @@ export default function PubquizPage() {
 			total_quizzes: number;
 		}>
 	>([]);
+	const [pubquizGroups, setPubquizGroups] = useState<PubquizGroup[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [mounted, setMounted] = useState(false);
 
@@ -26,7 +27,10 @@ export default function PubquizPage() {
 			try {
 				const averagePlacementsData =
 					await pubquizService.getPlayerAverages();
+				const pubquizGroupsData =
+					await pubquizService.getPlacementsPerSeason();
 				setAveragePlacements(averagePlacementsData);
+				setPubquizGroups(pubquizGroupsData);
 			} catch (error) {
 				console.error("Error fetching top three:", error);
 			} finally {
@@ -43,6 +47,8 @@ export default function PubquizPage() {
 	const gold = averagePlacements[0];
 	const silver = averagePlacements[1];
 	const bronze = averagePlacements[2];
+
+	console.log(pubquizGroups);
 
 	return (
 		<div className="px-3 sm:px-4 lg:px-0">
