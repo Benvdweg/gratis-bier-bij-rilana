@@ -6,6 +6,20 @@ interface PlayerStats {
 	total_quizzes: number;
 }
 
+interface PubquizRecord {
+	name: string;
+	player: string;
+	placement: number;
+}
+
+export interface PubquizGroup {
+	pubquiz_name: string;
+	players: {
+		player: string;
+		placement: number;
+	}[];
+}
+
 export class PubquizService {
 	async getPlayerAverages(): Promise<PlayerStats[]> {
 		const { data, error } = await supabase
@@ -38,5 +52,36 @@ export class PubquizService {
 		return averageStats.sort(
 			(a, b) => a.average_placement - b.average_placement
 		);
+	}
+
+	async getPlacementsPerSeason(): Promise<PubquizGroup[]> {
+		const { data, error } = await supabase
+			.from("pubquiz")
+			.select("name, player, placement");
+
+		if (error) throw error;
+		if (!data) return [];
+
+		const groupMap = data.reduce<Record<string, PubquizGroup>>(
+			(acc, row: PubquizRecord) => {
+				if (!acc[row.name]) {
+					acc[row.name] = {
+						pubquiz_name: row.name,
+						players: [],
+					};
+				}
+				acc[row.name].players.push({
+					player: row.player,
+					placement: row.placement,
+				});
+				return acc;
+			},
+			{}
+		);
+
+		return Object.values(groupMap).map((group) => ({
+			...group,
+			players: group.players.sort((a, b) => a.placement - b.placement),
+		}));
 	}
 }

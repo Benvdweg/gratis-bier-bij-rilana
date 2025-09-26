@@ -1,32 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PubquizService } from "@/services/PubquizService";
-import Image from "next/image";
+import { PubquizGroup, PubquizService } from "@/services/PubquizService";
 import { LoadingCard } from "./components/LoadingCard";
+import HallOfFame from "./components/HallOfFame";
 
 const pubquizService = new PubquizService();
-const PAGE_TITLE = "🏆 Hall of Fame 🏆";
+
+const getOrdinal = (num: number): string => {
+	const suffixes = ["th", "st", "nd", "rd"];
+	const value = num % 100;
+	return (
+		num + (suffixes[(value - 20) % 10] || suffixes[value] || suffixes[0])
+	);
+};
 
 export default function PubquizPage() {
-	const [averagePlacements, setAveragePlacements] = useState<
-		Array<{
-			player_name: string;
-			average_placement: number;
-			total_quizzes: number;
-		}>
-	>([]);
+	const [pubquizGroups, setPubquizGroups] = useState<PubquizGroup[]>([]);
+
 	const [loading, setLoading] = useState(true);
-	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
-		setMounted(true);
-
 		async function fetchAveragePlacements() {
 			try {
-				const averagePlacementsData =
-					await pubquizService.getPlayerAverages();
-				setAveragePlacements(averagePlacementsData);
+				const pubquizGroupsData =
+					await pubquizService.getPlacementsPerSeason();
+				setPubquizGroups(pubquizGroupsData);
 			} catch (error) {
 				console.error("Error fetching top three:", error);
 			} finally {
@@ -36,105 +35,39 @@ export default function PubquizPage() {
 		fetchAveragePlacements();
 	}, []);
 
-	if (!mounted || loading) {
-		return <LoadingCard />;
-	}
-
-	const gold = averagePlacements[0];
-	const silver = averagePlacements[1];
-	const bronze = averagePlacements[2];
+	if (loading) return <LoadingCard />;
 
 	return (
-		<div className="px-3 sm:px-4 lg:px-0">
-			<div className="mt-2 sm:mt-4 md:mt-8 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-3 sm:p-6 md:p-8 rounded-xl shadow-lg">
-				<h1 className="text-black font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center mb-6 sm:mb-8 lg:mb-12 drop-shadow-md leading-tight">
-					{PAGE_TITLE}
-				</h1>
-				<div className="flex justify-center items-end gap-2 sm:gap-4 md:gap-6 lg:gap-8">
-					{/* Silver (2nd place) - Left */}
-					{silver && (
-						<div className="flex flex-col items-center w-1/3">
-							<div className="bg-gradient-to-b from-[#c0c0c0] to-[#a8a8a8] text-white font-semibold text-sm sm:text-lg md:text-xl lg:text-2xl text-center py-2 sm:py-4 md:py-6 rounded-t-lg shadow-md h-24 sm:h-32 md:h-40 w-full flex flex-col justify-center">
-								<p className="truncate px-1">
-									{silver.player_name}
-								</p>
-								<p className="text-xs sm:text-sm md:text-base mt-1">
-									{silver.average_placement.toFixed(2)}
-								</p>
-							</div>
-							<div className="bg-[#d3d3d3] w-full h-12 sm:h-20 md:h-24 flex items-center justify-center text-gray-700 font-medium">
-								<Image
-									src="/icons/silver-medal.png"
-									alt="Silver Medal"
-									width={32}
-									height={32}
-									className="sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
-								/>
-							</div>
-						</div>
-					)}
-					{/* Gold (1st place) - Center */}
-					{gold && (
-						<div className="flex flex-col items-center w-1/3">
-							<div className="bg-gradient-to-b from-[#ffd700] to-[#e6b800] text-white font-bold text-base sm:text-xl md:text-2xl lg:text-3xl text-center py-3 sm:py-6 md:py-8 rounded-t-lg shadow-md h-32 sm:h-48 md:h-56 w-full border-2 border-yellow-300 flex flex-col justify-center">
-								<p className="truncate px-1">
-									{gold.player_name}
-								</p>
-								<p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4">
-									{gold.average_placement.toFixed(2)}
-								</p>
-							</div>
-							<div className="bg-[#ffeb3b] w-full h-16 sm:h-28 md:h-32 flex items-center justify-center text-gray-800 font-medium">
-								<Image
-									src="/icons/gold-medal.svg"
-									alt="Gold Medal"
-									width={40}
-									height={40}
-									className="sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
-								/>
-							</div>
-						</div>
-					)}
-					{/* Bronze (3rd place) - Right */}
-					{bronze && (
-						<div className="flex flex-col items-center w-1/3">
-							<div className="bg-gradient-to-b from-[#cd7f32] to-[#b87333] text-white font-semibold text-sm sm:text-lg md:text-xl lg:text-2xl text-center py-2 sm:py-4 md:py-6 rounded-t-lg shadow-md h-16 sm:h-24 md:h-32 w-full flex flex-col justify-center">
-								<p className="truncate px-1">
-									{bronze.player_name}
-								</p>
-								<p className="text-xs sm:text-sm md:text-base mt-1 sm:mt-4">
-									{bronze.average_placement.toFixed(2)}
-								</p>
-							</div>
-							<div className="bg-[#e8b293] w-full h-10 sm:h-16 md:h-20 flex items-center justify-center text-gray-700 font-medium">
-								<Image
-									src="/icons/bronze-medal.png"
-									alt="Bronze Medal"
-									width={28}
-									height={28}
-									className="sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-16 lg:h-16"
-								/>
-							</div>
-						</div>
-					)}
-				</div>
-				<div className="max-w-4xl mx-auto mt-4 sm:mt-6">
-					{averagePlacements.slice(3).map((player, index) => (
+		<div className="px-3 sm:px-4 lg:px-0 mb-8">
+			<HallOfFame />
+			<div>
+				{pubquizGroups.map((group, index) => {
+					return (
 						<div
-							key={player.player_name}
-							className="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 bg-white rounded-lg mb-2 shadow-sm"
+							key={index}
+							className="mt-2 sm:mt-4 md:mt-6 lg:mt-8 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-4 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
 						>
-							<span className="text-base sm:text-lg font-medium text-gray-800 truncate pr-2">
-								{index + 4}. {player.player_name}
-							</span>
-							<div className="text-right flex-shrink-0">
-								<p className="text-sm sm:text-base text-gray-600">
-									{player.average_placement.toFixed(2)}
-								</p>
+							<h3 className="text-black font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 sm:mb-6 drop-shadow-sm">
+								{group.pubquiz_name}
+							</h3>
+							<div className="space-y-2 sm:space-y-3">
+								{group.players.map((player, playerIndex) => (
+									<div
+										key={playerIndex}
+										className="flex justify-between items-center p-3 sm:p-4 bg-white rounded-lg shadow-sm border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+									>
+										<span className="text-base sm:text-lg font-medium text-gray-800 truncate pr-2">
+											<span className="font-bold text-gray-900">
+												{getOrdinal(player.placement)}.
+											</span>{" "}
+											{player.player}
+										</span>
+									</div>
+								))}
 							</div>
 						</div>
-					))}
-				</div>
+					);
+				})}
 			</div>
 		</div>
 	);
