@@ -70,7 +70,7 @@ export default function PubquizPage() {
 							</div>
 							<div className="bg-[#d3d3d3] w-full h-12 sm:h-20 md:h-24 flex items-center justify-center text-gray-700 font-medium">
 								<Image
-									src="/icons/silver-medal.png"
+									src="/icons/silver-medal.svg"
 									alt="Silver Medal"
 									width={32}
 									height={32}
@@ -114,7 +114,7 @@ export default function PubquizPage() {
 							</div>
 							<div className="bg-[#e8b293] w-full h-10 sm:h-16 md:h-20 flex items-center justify-center text-gray-700 font-medium">
 								<Image
-									src="/icons/bronze-medal.png"
+									src="/icons/bronze-medal.svg"
 									alt="Bronze Medal"
 									width={28}
 									height={28}
