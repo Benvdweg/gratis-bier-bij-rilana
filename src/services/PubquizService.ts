@@ -79,6 +79,9 @@ export class PubquizService {
 			{}
 		);
 
-		return Object.values(groupMap);
+		return Object.values(groupMap).map((group) => ({
+			...group,
+			players: group.players.sort((a, b) => a.placement - b.placement),
+		}));
 	}
 }
