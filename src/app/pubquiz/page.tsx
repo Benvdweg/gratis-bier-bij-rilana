@@ -142,6 +142,23 @@ export default function PubquizPage() {
 					))}
 				</div>
 			</div>
+			<div>
+				{pubquizGroups.map((group, index) => {
+					return (
+						<div
+							key={index}
+							className="mt-2 sm:mt-4 md:mt-8 bg-gradient-to-b from-[#fcfbfb] to-[#f5f5f5] max-w-4xl mx-auto p-3 sm:p-6 md:p-8 rounded-xl shadow-lg"
+						>
+							<h3 className="text-black">{group.pubquiz_name}</h3>
+							{group.players.map((player, playerIndex) => (
+								<div key={playerIndex} className="text-black">
+									{player.player} - {player.placement}
+								</div>
+							))}
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 }
