@@ -33,9 +33,7 @@ export default function HallOfFame() {
 		fetchAveragePlacements();
 	}, []);
 
-	if (loading) {
-		return <LoadingCard />;
-	}
+	if (loading) return <LoadingCard />;
 
 	const gold = averagePlacements[0];
 	const silver = averagePlacements[1];

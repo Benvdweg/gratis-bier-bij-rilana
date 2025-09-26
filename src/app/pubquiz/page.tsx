@@ -27,9 +27,7 @@ export default function PubquizPage() {
 		fetchAveragePlacements();
 	}, []);
 
-	if (loading) {
-		return <LoadingCard />;
-	}
+	if (loading) return <LoadingCard />;
 
 	return (
 		<div className="px-3 sm:px-4 lg:px-0">
