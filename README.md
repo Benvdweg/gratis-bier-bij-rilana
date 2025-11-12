@@ -1,6 +1,6 @@
 # Gratis Bier bij Rilana 🍻
 
-A Next.js web application for tracking pub quiz results and player statistics at Rilana. Features a Hall of Fame showing player averages and detailed results per quiz. The production version of the website is acccessible at gratisbierbijrilana.nl
+A Next.js web application for tracking pub quiz results and player statistics for our friend group. Features a Hall of Fame showing player averages and detailed results per quiz. The production version of the website is acccessible at gratisbierbijrilana.nl
 
 ## Features
 
