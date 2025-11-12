@@ -77,9 +77,6 @@ export default function NavBar() {
 					))}
 				</ul>
 				<div className="p-4 border-t border-gray-600/30 mt-auto">
-					<div className="text-xs text-gray-400 text-center mb-2">
-						🍺 Cheers to good times!
-					</div>
 					<div className="text-center">
 						<button
 							onClick={handleLogout}
