@@ -29,7 +29,6 @@ export class PubquizService {
 		if (error) throw error;
 		if (!data) return [];
 
-		// Group by player and calculate averages
 		const playerStats = new Map<string, number[]>();
 
 		for (const record of data) {
